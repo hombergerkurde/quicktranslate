@@ -49,11 +49,13 @@ jobs:
     - name: Show DEB files
       run: |
         find . -name "*.deb" -ls
-        ls -lah packages/ || echo "No packages folder"
         
     - name: Copy DEB
       run: |
         cp packages/*.deb ./QuickTranslate.deb
-        ls -lah QuickTranslate.deb
         
-    - name: U
+    - name: Upload DEB
+      uses: actions/upload-artifact@v4
+      with:
+        name: QuickTranslate-hombergerkurde
+        path: QuickTranslate.deb
