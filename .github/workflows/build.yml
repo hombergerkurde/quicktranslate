@@ -40,3 +40,34 @@ jobs:
         
     - name: Build Package
       run: |
+        export THEOS=$HOME/theos
+        make clean
+        make package FINALPACKAGE=1
+        
+    - name: Show all DEB files
+      run: |
+        echo "=== Searching for DEB files ==="
+        find . -name "*.deb" -ls
+        echo "=== Packages folder content ==="
+        ls -lah packages/ || echo "No packages folder"
+        echo "=== Current directory ==="
+        pwd
+        ls -lah
+        
+    - name: Copy DEB to root
+      run: |
+        if [ -f packages/*.deb ]; then
+          cp packages/*.deb ./QuickTranslate.deb
+          echo "DEB copied successfully"
+          ls -lah QuickTranslate.deb
+        else
+          echo "ERROR: No DEB file found!"
+          exit 1
+        fi
+        
+    - name: Upload DEB
+      uses: actions/upload-artifact@v4
+      with:
+        name: QuickTranslate-hombergerkurde
+        path: QuickTranslate.deb
+        if-no-files-found: error
