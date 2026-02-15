@@ -13,38 +13,36 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     
-    - name: Install Build Tools
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl wget unzip git
-    
     - name: Setup Theos
       run: |
         git clone --recursive https://github.com/theos/theos.git $HOME/theos
+        echo "THEOS=$HOME/theos" >> $GITHUB_ENV
         
-    - name: Download iOS SDK
+    - name: Download SDK
       run: |
+        mkdir -p $HOME/theos/sdks
         cd $HOME/theos/sdks
-        wget -q https://github.com/theos/sdks/releases/download/master/iPhoneOS16.5.sdk.tar.xz
-        tar -xf iPhoneOS16.5.sdk.tar.xz
-        rm iPhoneOS16.5.sdk.tar.xz
+        curl -LO https://github.com/theos/sdks/archive/refs/heads/master.zip
+        unzip -q master.zip
+        mv sdks-master/* ./
+        rm -rf sdks-master master.zip
         
-    - name: Download Toolchain
+    - name: Install Toolchain
       run: |
-        cd $HOME/theos
-        wget -q https://github.com/CRKatri/llvm-project/releases/download/swift-5.3.2-RELEASE/swift-5.3.2-RELEASE-ubuntu20.04.tar.xz
-        tar -xf swift-5.3.2-RELEASE-ubuntu20.04.tar.xz
-        rm swift-5.3.2-RELEASE-ubuntu20.04.tar.xz
+        sudo apt-get update
+        sudo apt-get install -y clang-12 lld-12
+        sudo ln -sf /usr/bin/clang-12 /usr/bin/clang
+        sudo ln -sf /usr/bin/ld.lld-12 /usr/bin/ld.lld
         
     - name: Build Package
       run: |
         export THEOS=$HOME/theos
-        export PATH="$THEOS/toolchain/swift-5.3.2-RELEASE-ubuntu20.04/usr/bin:$PATH"
+        export PATH="$THEOS/bin:$PATH"
         make clean
         make package FINALPACKAGE=1
         
     - name: Upload DEB
       uses: actions/upload-artifact@v4
       with:
-        name: QuickTranslate-v2.0
-        path: packages/*.deb
+        name: QuickTranslate-hombergerkurde
+        path: packages/*
