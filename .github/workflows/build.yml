@@ -46,14 +46,27 @@ jobs:
         elif [ -f /usr/bin/llvm-lipo-18 ]; then
           ln -s /usr/bin/llvm-lipo-18 $HOME/theos/toolchain/linux/iphone/bin/lipo
         else
-          cat > $HOME/theos/toolchain/linux/iphone/bin/lipo << 'LIPO_EOF'
-#!/bin/bash
-cp $4 $6
-LIPO_EOF
+          printf '#!/bin/bash\ncp $4 $6\n' > $HOME/theos/toolchain/linux/iphone/bin/lipo
           chmod +x $HOME/theos/toolchain/linux/iphone/bin/lipo
         fi
         ls -la $HOME/theos/toolchain/linux/iphone/bin/
         
     - name: Build Package
       run: |
-        export T
+        export THEOS=$HOME/theos
+        make clean
+        make package FINALPACKAGE=1
+        
+    - name: Show DEB files
+      run: |
+        find . -name "*.deb" -ls
+        
+    - name: Copy DEB
+      run: |
+        cp packages/*.deb ./QuickTranslate.deb
+        
+    - name: Upload DEB
+      uses: actions/upload-artifact@v4
+      with:
+        name: QuickTranslate-hombergerkurde
+        path: QuickTranslate.deb
