@@ -40,24 +40,3 @@ jobs:
         
     - name: Build Package
       run: |
-        export THEOS=$HOME/theos
-        make clean
-        make package FINALPACKAGE=1
-        
-    - name: Upload DEB
-      uses: actions/upload-artifact@v4
-      with:
-        name: QuickTranslate-hombergerkurde
-        path: packages/*.deb
-```
-
-4. **"Commit changes"**
-
----
-
-## 🎯 Was das macht:
-
-Wir erstellen **Fake-Verzeichnisse** mit Symlinks:
-```
-/home/runner/theos/toolchain/linux/iphone/bin/clang
-  → zeigt auf /usr/bin/clang
