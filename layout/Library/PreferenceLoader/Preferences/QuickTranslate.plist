@@ -21,8 +21,6 @@
 			<string>enabled</string>
 			<key>label</key>
 			<string>Aktiviert</string>
-			<key>PostNotification</key>
-			<string>com.hombergerkurde.quicktranslate/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -47,32 +45,14 @@
 			<array>
 				<string>Deutsch</string>
 				<string>Englisch</string>
-				<string>Französisch</string>
-				<string>Spanisch</string>
-				<string>Italienisch</string>
 				<string>Türkisch</string>
-				<string>Arabisch</string>
-				<string>Russisch</string>
 			</array>
 			<key>validValues</key>
 			<array>
 				<string>de</string>
 				<string>en</string>
-				<string>fr</string>
-				<string>es</string>
-				<string>it</string>
 				<string>tr</string>
-				<string>ar</string>
-				<string>ru</string>
 			</array>
-			<key>PostNotification</key>
-			<string>com.hombergerkurde.quicktranslate/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>QuickTranslate v2.0 - Text markieren, übersetzen, fertig! Funktioniert in allen Apps.</string>
 		</dict>
 	</array>
 	<key>title</key>
